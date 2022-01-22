@@ -11,7 +11,7 @@ const BASE_64_MAP = [
 ];
 
 
-$phrase = 'koteczek12';
+$phrase = '.';
 $binaryString = '';
 $result = '';
 
@@ -24,7 +24,10 @@ foreach (str_split($phrase) as $sign) {
     $binaryString.= $dec;
 }
 
+$padAmount = strlen($binaryString) % 24 !== 0 ? 3 - (strlen($binaryString) % 24) / 8 : 0;
+//var_dump($padAmount);exit;
 $binaryPackage = str_split($binaryString, 6);
+
 
 foreach ($binaryPackage as $package) {
     if (strlen($package) !== 6) {
@@ -34,6 +37,8 @@ foreach ($binaryPackage as $package) {
 
     $result.= BASE_64_MAP[bindec($package)];
 }
+
+$result .= str_repeat('=', $padAmount);
 
 //@TODO dodanie znaków = jeśli bity nie podzielne przez 24
 
