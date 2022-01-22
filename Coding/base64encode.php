@@ -10,7 +10,6 @@ const BASE_64_MAP = [
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/', '\0'
 ];
 
-
 $phrase = '.';
 $binaryString = '';
 $result = '';
@@ -24,12 +23,7 @@ foreach (str_split($phrase) as $sign) {
     $binaryString.= $dec;
 }
 
-$padAmount = strlen($binaryString) % 24 !== 0 ? 3 - (strlen($binaryString) % 24) / 8 : 0;
-//var_dump($padAmount);exit;
-$binaryPackage = str_split($binaryString, 6);
-
-
-foreach ($binaryPackage as $package) {
+foreach (str_split($binaryString, 6) as $package) {
     if (strlen($package) !== 6) {
         $zeroNumbers = 6 - strlen($package);
         $package .= str_repeat('0', $zeroNumbers);
@@ -38,9 +32,8 @@ foreach ($binaryPackage as $package) {
     $result.= BASE_64_MAP[bindec($package)];
 }
 
+$padAmount = strlen($binaryString) % 24 !== 0 ? 3 - (strlen($binaryString) % 24) / 8 : 0;
 $result .= str_repeat('=', $padAmount);
-
-//@TODO dodanie znaków = jeśli bity nie podzielne przez 24
 
 echo var_dump($result);
 echo PHP_EOL;
